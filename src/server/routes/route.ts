@@ -21,6 +21,7 @@ router.get('/api/list', [], async (req:Request, res:Response) => {
 });
 router.get('/api/list/:id', [], async (req:Request, res:Response) => {
     console.log("list was called with id: " + req.params);
+    console.log(req.params);
     const todoList = await TodoList.find({url: req.params.id})
     return res.status(200).send(todoList);
 });
