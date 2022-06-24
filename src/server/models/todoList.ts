@@ -4,7 +4,7 @@ interface ITask {
     description: string;
     status: string;
     taskId: string;
-    cost?: number;
+    cost: number;
 }
 
 interface ITodoList {
@@ -45,6 +45,7 @@ const todoListSchema = new mongoose.Schema({
         description: { type: String },
         status: { type: String },
         taskId: { type: String },
+        cost: { type: Number},
     }],
 });
 

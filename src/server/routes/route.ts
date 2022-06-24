@@ -6,6 +6,7 @@ interface ITask {
     description: string;
     status: string;
     taskId: string;
+    cost: number;
 }
 
 const router = express.Router();
