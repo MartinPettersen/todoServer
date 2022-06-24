@@ -73,14 +73,6 @@ todoListSchema.statics.build = (attr: ITodoList) => {
 
 const TodoList = mongoose.model<TodoListDoc, todoListModelInterface>('TodoList', todoListSchema)
 
-/*
-TodoList.build({
-    title: "test",
-    description: "testing to see if this works",
-    url: "test1",
-    tasks: []
-})
-*/
 export { TodoList }
 
 
