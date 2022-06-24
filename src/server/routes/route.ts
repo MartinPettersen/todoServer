@@ -49,11 +49,13 @@ router.post('/api/list', async (req:Request, res:Response) => {
 })
 
 router.post('/api/list/add/:id', async (req:Request, res:Response) => {
-    const { title, description, status, taskId } = req.body;
+    const { title, description, status, taskId, cost } = req.body;
     console.log('title: ' + title);
     console.log('description: ' + description);
     console.log("status " + status)
     console.log('taskId: ' + taskId);
+    console.log('cost: ' + cost);
+
 
     console.log(1);
     
@@ -64,7 +66,8 @@ router.post('/api/list/add/:id', async (req:Request, res:Response) => {
             title: title,
             description: description,
             status: status,
-            taskId: taskId
+            taskId: taskId,
+            cost: cost,
         }]
     });
     console.log(2);
@@ -93,7 +96,8 @@ router.post('/api/list/uppdate/:id', async (req:Request, res:Response) => {
         title: todoList[0].tasks[index].title,
         description: todoList[0].tasks[index].description,
         status: status,
-        taskId: taskId
+        taskId: taskId,
+        cost: todoList[0].tasks[index].cost,
     };
     await TodoList.updateOne({ url: req.params.id }, {
         tasks: [...todoList[0].tasks]
