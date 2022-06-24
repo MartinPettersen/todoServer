@@ -33,6 +33,7 @@ router.post('/api/list', async (req:Request, res:Response) => {
     console.log(req.body)
     const { title, description, url } = req.body;
     const tasks: Array<ITask> = [];
+    const totalCost: number = 0;
     console.log('title: ' + title);
     console.log('description: ' + description);
     console.log('description: ' + url);
@@ -40,7 +41,7 @@ router.post('/api/list', async (req:Request, res:Response) => {
     
     console.log(1);
 
-    const todoList = TodoList.build({ title, description, url, tasks });
+    const todoList = TodoList.build({ title, description, url, tasks, totalCost });
     console.log(2);
     console.log(todoList)
     await todoList.save();
@@ -69,7 +70,8 @@ router.post('/api/list/add/:id', async (req:Request, res:Response) => {
             status: status,
             taskId: taskId,
             cost: cost,
-        }]
+        }],
+        totalCost: todoList[0].totalCost + cost
     });
     console.log(2);
 

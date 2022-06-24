@@ -12,6 +12,7 @@ interface ITodoList {
     description: string;
     url: string;
     tasks: Array<ITask>;
+    totalCost: number;
 }
 
 interface todoListModelInterface extends mongoose.Model<TodoListDoc>{
@@ -23,6 +24,8 @@ interface TodoListDoc extends mongoose.Document {
     description: string;
     url: string;
     tasks: Array<ITask>;
+    totalCost: number;
+
 }
 
 
@@ -47,6 +50,11 @@ const todoListSchema = new mongoose.Schema({
         taskId: { type: String },
         cost: { type: Number},
     }],
+    totalCost: {
+        type: Number,
+        required: true
+    },
+
 });
 
 todoListSchema.statics.build = (attr: ITodoList) => {
