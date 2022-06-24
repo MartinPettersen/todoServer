@@ -131,33 +131,5 @@ router.post('/api/list/uppdate/:id', async (req:Request, res:Response) => {
 
 })
 
-router.post('/api/list/shared/uppdate/:id', async (req:Request, res:Response) => {
-    const {status, taskId } = req.body;
-    console.log("status " + status)
-    console.log('taskId: ' + taskId);
 
-    
-    let todoList = await TodoList.find({sharedUrl: req.params.id});
-
-    const index = todoList[0].tasks.findIndex((task => task.taskId === taskId));
-
-    console.log('task length is ' + todoList[0].tasks.length)
-    console.log('index ' + index);
-    todoList[0].tasks[index] = { 
-        title: todoList[0].tasks[index].title,
-        description: todoList[0].tasks[index].description,
-        status: status,
-        taskId: taskId,
-        cost: todoList[0].tasks[index].cost,
-    };
-    await TodoList.updateOne({ url: req.params.id }, {
-        tasks: [...todoList[0].tasks]
-    });
-
-    todoList = await TodoList.find({url: req.params.id});
-
-
-    return res.status(200).send(todoList);
-
-})
 export { router as listRouter }
