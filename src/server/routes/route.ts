@@ -26,6 +26,18 @@ router.get('/api/list/:id', [], async (req:Request, res:Response) => {
     const todoList = await TodoList.find({url: req.params.id})
     return res.status(200).send(todoList);
 });
+router.get('/api/list/freeze/:id', [], async (req:Request, res:Response) => {
+    console.log("Frezing list: " + req.params);
+    console.log(req.params);
+    let todoList = await TodoList.find({url: req.params.id});
+
+    await TodoList.updateOne({ url: req.params.id }, {
+        readOnly: !todoList[0].readOnly,
+    });
+
+
+    return res.status(200).send(todoList);
+});
 router.get('/api/list/shared/:id', [], async (req:Request, res:Response) => {
     console.log("list was called with id: " + req.params);
     console.log(req.params);
