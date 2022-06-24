@@ -13,6 +13,8 @@ interface ITodoList {
     url: string;
     tasks: Array<ITask>;
     totalCost: number;
+    sharedUrl: string;
+    readOnly: boolean;
 }
 
 interface todoListModelInterface extends mongoose.Model<TodoListDoc>{
@@ -25,7 +27,8 @@ interface TodoListDoc extends mongoose.Document {
     url: string;
     tasks: Array<ITask>;
     totalCost: number;
-
+    sharedUrl: string;
+    readOnly: boolean;
 }
 
 
@@ -54,7 +57,14 @@ const todoListSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-
+    sharedUrl: {
+        type: String,
+        required: true,
+    },
+    readOnly: {
+        type: Boolean,
+        required: true
+    },
 });
 
 todoListSchema.statics.build = (attr: ITodoList) => {

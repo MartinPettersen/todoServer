@@ -26,14 +26,20 @@ router.get('/api/list/:id', [], async (req:Request, res:Response) => {
     const todoList = await TodoList.find({url: req.params.id})
     return res.status(200).send(todoList);
 });
-
+router.get('/api/list/shared/:id', [], async (req:Request, res:Response) => {
+    console.log("list was called with id: " + req.params);
+    console.log(req.params);
+    const todoList = await TodoList.find({sharedUrl: req.params.id})
+    return res.status(200).send(todoList);
+});
 
 router.post('/api/list', async (req:Request, res:Response) => {
     console.log("i was called")
     console.log(req.body)
-    const { title, description, url } = req.body;
+    const { title, description, url, sharedUrl } = req.body;
     const tasks: Array<ITask> = [];
     const totalCost: number = 0;
+    const readOnly = false;
     console.log('title: ' + title);
     console.log('description: ' + description);
     console.log('description: ' + url);
@@ -41,7 +47,7 @@ router.post('/api/list', async (req:Request, res:Response) => {
     
     console.log(1);
 
-    const todoList = TodoList.build({ title, description, url, tasks, totalCost });
+    const todoList = TodoList.build({ title, description, url, tasks, totalCost, sharedUrl, readOnly });
     console.log(2);
     console.log(todoList)
     await todoList.save();
@@ -113,4 +119,33 @@ router.post('/api/list/uppdate/:id', async (req:Request, res:Response) => {
 
 })
 
+router.post('/api/list/shared/uppdate/:id', async (req:Request, res:Response) => {
+    const {status, taskId } = req.body;
+    console.log("status " + status)
+    console.log('taskId: ' + taskId);
+
+    
+    let todoList = await TodoList.find({sharedUrl: req.params.id});
+
+    const index = todoList[0].tasks.findIndex((task => task.taskId === taskId));
+
+    console.log('task length is ' + todoList[0].tasks.length)
+    console.log('index ' + index);
+    todoList[0].tasks[index] = { 
+        title: todoList[0].tasks[index].title,
+        description: todoList[0].tasks[index].description,
+        status: status,
+        taskId: taskId,
+        cost: todoList[0].tasks[index].cost,
+    };
+    await TodoList.updateOne({ url: req.params.id }, {
+        tasks: [...todoList[0].tasks]
+    });
+
+    todoList = await TodoList.find({url: req.params.id});
+
+
+    return res.status(200).send(todoList);
+
+})
 export { router as listRouter }
